@@ -1,0 +1,84 @@
+import java.util.*;
+
+class Car {
+    private String color;
+    private String direction;
+
+    public Car(String color, String direction) {
+        this.color = color;
+        this.direction = direction;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+}
+
+class TrafficSimulation {
+    private List<Car> cars;
+    private Map<String, Map<String, Integer>> colorCount;
+
+    public TrafficSimulation() {
+        cars = new ArrayList<>();
+        colorCount = new HashMap<>();
+        colorCount.put("Red", new HashMap<>());
+        colorCount.put("Green", new HashMap<>());
+        colorCount.put("Blue", new HashMap<>());
+        colorCount.put("Orange", new HashMap<>());
+        colorCount.put("Pink", new HashMap<>());
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+        String color = car.getColor();
+        String direction = car.getDirection();
+
+        Map<String, Integer> directionCount = colorCount.get(color);
+        directionCount.put(direction, directionCount.getOrDefault(direction, 0) + 1);
+    }
+
+    public void generateReport() {
+        for (String color : colorCount.keySet()) {
+            Map<String, Integer> directionCount = colorCount.get(color);
+            System.out.println("Color: " + color);
+            for (String direction : directionCount.keySet()) {
+                int count = directionCount.get(direction);
+                System.out.println("   Direction: " + direction + ", Count: " + count);
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TrafficSimulation trafficSimulation = new TrafficSimulation();
+
+        // Generating sample cars for demonstration
+        Car car1 = new Car("Red", "North");
+        Car car2 = new Car("Green", "South");
+        Car car3 = new Car("Blue", "East");
+        Car car4 = new Car("Green", "North");
+        Car car5 = new Car("Red", "South");
+        Car car6 = new Car("Orange", "West");
+        Car car7 = new Car("Pink", "East");
+        Car car8 = new Car("Pink", "North");
+
+        // Adding cars to the simulation
+        trafficSimulation.addCar(car1);
+        trafficSimulation.addCar(car2);
+        trafficSimulation.addCar(car3);
+        trafficSimulation.addCar(car4);
+        trafficSimulation.addCar(car5);
+        trafficSimulation.addCar(car6);
+        trafficSimulation.addCar(car7);
+        trafficSimulation.addCar(car8);
+
+        // Generating and printing the report
+        trafficSimulation.generateReport();
+    }
+}
